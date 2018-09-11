@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="CLIENTES">
+    <METHOD NAME="ListarOracle" DESCRIPTION="Lista de clientes da Oracle" VERSION="13" INTFTYPE="8" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="EMAIL" SIZE="200" FLAGS="2049" PROJECTION="0" ORDER="1" FIELDLABEL="E-mail" CTAB="0"/>
+        <PARAM NAME="PAG_LISTA" FORMAT="N" SIZE="8" FLAGS="2049" DEFAULT="0" PROJECTION="0" ORDER="2" LOOKUP="list:'0','0';'1','1';'2','2';'3','3';'4','4';'5','5';'6','6';'7','7';'8','8';'9','9';'10','10';'11','11';'12','12';'13','13';'14','14';'15','15';'16','16';'17','17';'18','18';'19','19';'20','20';" FIELDLABEL="P&#225;gina" CTAB="0"/>
+      </PARAMS>
+      <FIELDS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <FIELD NAME="NOME" SIZE="300" FLAGS="1" PROJECTION="0" ORDER="6" FIELDLABEL="Nome" CTAB="0"/>
+        <FIELD NAME="EMAIL" SIZE="200" FLAGS="2049" PROJECTION="0" ORDER="7" FIELDLABEL="E-mail" CTAB="0"/>
+        <FIELD NAME="ATACADO" FORMAT="B" SIZE="1" FLAGS="1" PROJECTION="0" ORDER="8" FIELDLABEL="Atacado" CTAB="0"/>
+        <FIELD NAME="ID" SIZE="30" FLAGS="1" PROJECTION="0" ORDER="5" FIELDLABEL="Id" CTAB="0"/>
+        <FIELD NAME="IMPORTADO" FORMAT="B" SIZE="1" FLAGS="1" PROJECTION="0" ORDER="4" FIELDLABEL="Importado" CTAB="0"/>
+      </FIELDS>
+      <ACTIONSCRIPT>
+</ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>
