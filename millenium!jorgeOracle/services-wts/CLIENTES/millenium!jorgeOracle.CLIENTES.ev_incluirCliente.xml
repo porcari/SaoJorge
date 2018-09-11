@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="CLIENTES">
+    <METHOD NAME="ev_incluirCliente" DESCRIPTION="Evento de inclusao de cliente" VERSION="4" INTFTYPE="16" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="CLIENTE" FORMAT="N" SIZE="8" FLAGS="1" PROJECTION="0" FIELDLABEL="Cliente" CTAB="0"/>
+        <PARAM NAME="EMAIL" SIZE="200" FLAGS="1" PROJECTION="0" FIELDLABEL="Email" CTAB="0"/>
+      </PARAMS>
+      <FIELDS/>
+      <ACTIONSCRIPT>
+</ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>
