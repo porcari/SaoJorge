@@ -23,6 +23,8 @@
 	<link category="PROCESSOS INTERNOS\Vitrine Oracle\Listar Estoques" target="standard.tdataedit" _id="ORC_5" Caption="Listar Estoques" ORDER="1">
 		<method>MILLENIUM!JORGEORACLE.ESTOQUES.LISTARORACLE</method>
 	</link>		
-</link>
+	<link category="PROCESSOS INTERNOS\Vendas\Listar Clientes" target="standard.tdataedit" _id="ORC_6" Caption="Listar Clientes" ORDER="1">
+		<method>MILLENIUM!JORGEORACLE.CLIENTES.LISTARSIMPLES</method>
+	</link>		
 </root>
 
