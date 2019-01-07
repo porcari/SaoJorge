@@ -120,6 +120,11 @@ begin
           cliente.SetFieldByName('PF_PJ', 'PF');
         end;
 
+        if VarToStr(jarr.Field['items'].Child[i].Field['receiveEmail'].Value)='yes' then
+          cliente.SetFieldByName('MALAELETRONICA',true)
+        else
+          cliente.SetFieldByName('MALAELETRONICA',false);
+
         //Endereços
         enderecos := DataPool.CreateRecordset('MILLENIUM_ECO.CLIENTES.ENDERECO');
         for x := 0 to jarr.Field['items'].Child[i].Field['shippingAddresses'].Count - 1 do
@@ -152,7 +157,8 @@ begin
         try
           result := Call('MILLENIUM_ECO.CLIENTES.INCLUIROUALTERAR', cliente, true, '', urlRest);
 
-          if not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value) then
+          if (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value)) and
+             VarToBool(jarr.Field['items'].Child[i].Field['pessoaJuridica'].Value) then
           begin
             try
               //evento para workflow
