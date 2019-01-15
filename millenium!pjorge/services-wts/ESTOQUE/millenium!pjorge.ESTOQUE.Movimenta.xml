@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="ESTOQUE">
+    <METHOD NAME="Movimenta" DESCRIPTION="" VERSION="1" TRIGGEROF="ESTOQUE.MOVIMENTA" TRIGGERTYPE="0" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="VOID" FORMAT="N" SIZE="8" PROJECTION="0" FIELDLABEL="Void" CTAB="0"/>
+        <PARAM NAME="ORIGEM" FORMAT="N" SIZE="8" FLAGS="17" PROJECTION="0" ORDER="1" FIELDLABEL="Origem" CTAB="0"/>
+        <PARAM NAME="TIPO_ORIGEM" SIZE="1" FLAGS="17" PROJECTION="0" ORDER="2" FIELDLABEL="Tipo Origem" CTAB="0"/>
+      </PARAMS>
+      <FIELDS/>
+      <ACTIONSCRIPT>SELECT:M M.EVENTO
+FROM MOVIMENTO M
+WHERE M.COD_OPERACAO=:ORIGEM AND
+      M.TIPO_OPERACAO=:TIPO_ORIGEM;
+
+SELECT:E #NULL_TO_S(SJ.GERA_PEDIDO,FALSE) AS GERA_PEDIDO
+FROM SJ_EVENTOS SJ
+WHERE SJ.EVENTO=:M.EVENTO;
+
+#SELECT(E._EOF,TRUE:{},
+               ELSE:{#SELECT(E.GERA_PEDIDO,TRUE:{#CALL:COD MILLENIUM.UTILS.DEFAULT ('COD_PEDIDOT',15,True);
+
+                                                 SELECT:MOV M.FILIAL_DESTINO AS FILIAL_ORIGEM,
+                                                            M.FILIAL AS FILIAL_DESTINO,
+                                                            M.DATA,
+                                                            M.TABELA,
+                                                            M.ACERTO,
+                                                            M.V_ACERTO,
+                                                            M.QTDE AS QUANTIDADE,
+                                                            M.TOTAL,
+                                                            M.TRANSPORTADORA,
+                                                            M.PESO_L,
+                                                            M.PESO_B,
+                                                            M.V_FRETE,
+                                                            M.CONDICOES_PGTO,
+                                                            M.CIF_FOB,
+                                                            'PEDIDO GERADO POR EXTENS&#195;O - '||#NULL_TO_S(M.OBS,"") AS OBS,
+                                                            M.DATA_ENTREGA,
+                                                            'AC' AS TIPO,
+                                                             M.MODALIDADE_FRETE,
+                                                            M.TIPO_OPERACAO,
+                                                            M.COD_OPERACAO
+                                                 FROM MOVIMENTO M
+                                                 WHERE M.COD_OPERACAO=:ORIGEM AND
+                                                       M.TIPO_OPERACAO=:TIPO_ORIGEM;
+
+                                                 SELECT:PRO PE.PRODUTO,
+                                                            PE.COR,
+                                                            PE.ESTAMPA,
+                                                            PE.TAMANHO,
+                                                            PE.QUANTIDADE,
+                                                            PE.PRECO,
+                                                            PE.ITEM
+                                                 FROM PRODUTOS_EVENTOS PE
+                                                 WHERE PE.COD_OPERACAO=:MOV.COD_OPERACAO AND
+                                                       PE.TIPO_OPERACAO=:MOV.TIPO_OPERACAO;
+
+                                                 #CALL MILLENIUM.PEDIDO_TRANSFERENCIA.INCLUIR (COD_PEDIDOT=:COD.RESULT,
+                                                                                               FILIAL_ORIGEM=:MOV.FILIAL_ORIGEM,
+                                                                                               FILIAL_DESTINO=:MOV.FILIAL_DESTINO,
+                                                                                               DATA=:MOV.DATA,
+                                                                                               TABELA=:MOV.TABELA,
+                                                                                               ACERTO=:MOV.ACERTO,
+                                                                                               V_ACERTO=:MOV.V_ACERTO,
+                                                                                               QUANTIDADE=:MOV.QUANTIDADE,
+                                                                                               TOTAL=:MOV.TOTAL,
+                                                                                               TRANSPORTADORA=:MOV.TRANSPORTADORA,
+                                                                                               PESO_L=:MOV.PESO_L,
+                                                                                               PESO_B=:MOV.PESO_B,
+                                                                                               V_FRETE=:MOV.V_FRETE,
+                                                                                               CONDICOES_PGTO=:MOV.CONDICOES_PGTO,
+                                                                                               CIF_FOB=:MOV.CIF_FOB,
+                                                                                               EFETUADO='F',
+                                                                                               APROVADO='T',
+                                                                                               OBS=:MOV.OBS,
+                                                                                               DATA_ENTREGA=:MOV.DATA,
+                                                                                               TIPO=:MOV.TIPO,
+                                                                                               PRODUTOS=:PRO)},
+                                           ELSE:{});});
+</ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>
