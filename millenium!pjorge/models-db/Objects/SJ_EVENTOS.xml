@@ -1,0 +1,20 @@
+<dbdic.objects.objects>
+  <ROW NAME="SJ_EVENTOS" CREATE_BLANK="FALSE" ORDER="0">
+    <FIELDS NAME="SJ_EVENTO" DATATYPE="3">
+      <FLAGS> AQ==
+</FLAGS>
+    </FIELDS>
+    <FIELDS NAME="EVENTO" DATATYPE="3"/>
+    <FIELDS NAME="GERA_PEDIDO" DATATYPE="1" SIZE="1">
+      <DEFAULT>F</DEFAULT>
+    </FIELDS>
+    <INDEXES>
+      <FIELDS>SJ_EVENTO</FIELDS>
+      <FLAGS> BQ==
+</FLAGS>
+    </INDEXES>
+    <INDEXES>
+      <FIELDS>EVENTO</FIELDS>
+    </INDEXES>
+  </ROW>
+</dbdic.objects.objects>
