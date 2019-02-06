@@ -171,7 +171,10 @@ begin
                 raise Exception.Create('Erro ao disparar evento do cliente ' + E.Message);
               end;
             end;
+          end;
 
+          if (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value))  then
+          begin
             json := '{"usr_importado" : true}';
             try
               RestClientCenter(accessToken, grantType, 'Put', urlBase, PChar('/ccadmin/v1/profiles/'+idCliente),json);
@@ -181,7 +184,7 @@ begin
                 AddLog(0,'Erro ao marcar cliente como importado ' + cliente.GetFieldAsString('NOME') + ' ' + E.Message,'ERRO_IMPORTADOR_CLIENTE');
               end;
             end;
-          end;
+          end;         
         except
           on E: Exception do
           begin
@@ -317,7 +320,7 @@ begin
   accessToken := '';
 
   sres := RestClientCenter(accessToken, grantType, 'Get', urlBase, PChar('/ccadmin/v1/profiles?'+
-                                                                         '?useAdvancedQParser=true&q=usr_importado eq false&'+
+                                                                         'useAdvancedQParser=true&q=usr_importado eq false&'+
                                                                          'fields=items.id,items.firstName,items.lastName,items.email,items.user_atacado,items.usr_importado'));
 
   jarr := ParseJSON(PChar(utf8.UTF8ToString(sres)));
@@ -329,7 +332,8 @@ begin
       
         try
           cmd01.Dim('EMAIL',vartostr(jarr.Field['items'].Child[i].Field['email'].Value));
-          cmd01.execute('MILLENIUM!JORGEORACLE.CLIENTES.IMPORTAR(EMAIL=:EMAIL)');
+          cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.IMPORTAR(EMAIL=:EMAIL)');
+
         except
           on E: Exception do
           begin
