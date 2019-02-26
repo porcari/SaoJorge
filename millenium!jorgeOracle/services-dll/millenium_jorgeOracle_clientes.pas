@@ -69,7 +69,7 @@ begin
     urlRest := '';
     accessToken := '';
 
-    sres := RestClientCenter(accessToken, grantType, 'Get', urlBase, PChar('/ccadmin/v1/profiles/?q=email co "' + VarToStr(Input.GetParamByName('EMAIL')) + '"'));
+    sres := RestClientCenter(accessToken, grantType, 'Get', urlBase, PChar('/ccadmin/v1/profiles/?q=email co "' + RemoveEspacos(VarToStr(Input.GetParamByName('EMAIL'))) + '"'));
     jarr := ParseJSON(PChar(utf8.UTF8ToString(sres)));
     try
       if jarr.Field['items'].Count = 0 then
@@ -81,7 +81,7 @@ begin
         fone := '';
         cliente.Clear;
 
-        idCliente := vartostr(jarr.Field['items'].Child[i].Field['id'].Value);      
+        idCliente := vartostr(jarr.Field['items'].Child[i].Field['id'].Value);
 
         if vartostr(jarr.Field['items'].Child[i].Field['lastName'].Value) <> '' then
           nome := vartostr(jarr.Field['items'].Child[i].Field['firstName'].Value) + ' ' + vartostr(jarr.Field['items'].Child[i].Field['lastName'].Value)
@@ -107,7 +107,7 @@ begin
         cliente.SetFieldByName('UFIE', '');
         cliente.SetFieldByName('VITRINE', vitrine);
 
-        if VarToBool(jarr.Field['items'].Child[i].Field['pessoaJuridica'].Value) then
+        if VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value)<>'' then
         begin
           cliente.SetFieldByName('CNPJ', VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value));
           cliente.SetFieldByName('IE', VarToStr(jarr.Field['items'].Child[i].Field['pjInscricaoEstadual'].Value));
@@ -140,7 +140,7 @@ begin
           enderecos.SetFieldByName('BAIRRO', copy(AnsiUpperCase(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['county'].Value)), 1, 20));
           enderecos.SetFieldByName('CIDADE', copy(RemoveAcentos(AnsiUpperCase(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['city'].Value))), 1, 40));
           enderecos.SetFieldByName('ESTADO', copy(AnsiUpperCase(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['state'].Value)), 1, 3));
-          enderecos.SetFieldByName('NOME_PAIS', 'BRASIL');
+          //enderecos.SetFieldByName('NOME_PAIS', 'BRASIL');
           enderecos.SetFieldByName('CEP', copy(Unformat(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['postalCode'].Value)), 1, 9));
           enderecos.SetFieldByName('CONTATO', contato);
           if jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['phoneNumber'].JsonText<>'null' then
@@ -155,29 +155,40 @@ begin
         cliente.Add;
 
         try
-          result := Call('MILLENIUM_ECO.CLIENTES.INCLUIROUALTERAR', cliente, true, '', urlRest);
-
-          if (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value)) and
-             VarToBool(jarr.Field['items'].Child[i].Field['pessoaJuridica'].Value) then
+          enderecos.First;
+          if not enderecos.EOF then
           begin
-            try
-              //evento para workflow
-              cmd01.Dim('CLIENTE',result.GetFieldByName('CLIENTE'));
-              cmd01.Dim('EMAIL',result.GetFieldByName('CLIENTE'));
-              cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.EV_INCLUIRCLIENTE(CLIENTE=:CLIENTE,EMAIL=:EMAIL)');
-            except
-              on E: Exception do
-              begin
-                raise Exception.Create('Erro ao disparar evento do cliente ' + E.Message);
+            result := Call('MILLENIUM_ECO.CLIENTES.INCLUIROUALTERAR', cliente, true, '', urlRest);
+
+            if (VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value)<>'') then
+            begin
+              try
+                //evento para workflow
+                cmd01.Dim('CLIENTE',result.GetFieldByName('CLIENTE'));
+                cmd01.Dim('EMAIL',result.GetFieldByName('CLIENTE'));
+                cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.EV_INCLUIRCLIENTE(CLIENTE=:CLIENTE,EMAIL=:EMAIL)');
+                AddLog(0,'cliente importado ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
+              except
+                on E: Exception do
+                begin
+                  raise Exception.Create('Erro ao disparar evento do cliente ' + E.Message);
+                end;
               end;
+            end
+            else
+            begin
+               AddLog(0,'cliente sem necessidade de importar ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
             end;
-          end;
+          end
+          else
+            AddLog(0,'cliente sem endereço ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
 
           if (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value))  then
           begin
             json := '{"usr_importado" : true}';
             try
               RestClientCenter(accessToken, grantType, 'Put', urlBase, PChar('/ccadmin/v1/profiles/'+idCliente),json);
+              AddLog(0,'cliente retirado da fila' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
             except
               on E: Exception do
               begin
