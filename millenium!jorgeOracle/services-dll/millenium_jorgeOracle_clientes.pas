@@ -166,9 +166,9 @@ begin
               try
                 //evento para workflow
                 cmd01.Dim('CLIENTE',result.GetFieldByName('CLIENTE'));
-                cmd01.Dim('EMAIL',result.GetFieldByName('E_MAIL'));
+                cmd01.Dim('EMAIL',cliente.GetFieldAsString('E_MAIL'));
                 cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.EV_INCLUIRCLIENTE(CLIENTE=:CLIENTE,EMAIL=:EMAIL)');
-                AddLog(0,'cliente importado ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
+                AddLog(0,'cliente importado ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
               except
                 on E: Exception do
                 begin
@@ -178,22 +178,22 @@ begin
             end
             else
             begin
-               AddLog(0,'cliente sem necessidade de importar ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
+               AddLog(0,'cliente sem necessidade de importar ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
             end;
           end
           else
-            AddLog(0,'cliente sem endereço ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
+            AddLog(0,'cliente sem endereço ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
 
           if (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value))  then
           begin
             json := '{"usr_importado" : true}';
             try
               RestClientCenter(accessToken, grantType, 'Put', urlBase, PChar('/ccadmin/v1/profiles/'+idCliente),json);
-              AddLog(0,'cliente retirado da fila' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
+              AddLog(0,'cliente retirado da fila' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
             except
               on E: Exception do
               begin
-                AddLog(0,'Erro ao marcar cliente como importado ' + cliente.GetFieldAsString('NOME') + ' ' + E.Message,'ERRO_IMPORTADOR_CLIENTE');
+                AddLog(0,'Erro ao marcar cliente como importado ' + cliente.GetFieldAsString('E_MAIL') + ' ' + E.Message,'ERRO_IMPORTADOR_CLIENTE');
               end;
             end;
           end;         
@@ -210,8 +210,8 @@ begin
   except
     on E: Exception do
     begin
-      AddLog(0,'Erro ao carregar cliente ' + cliente.GetFieldAsString('NOME') + ' ' + E.Message,'ERRO_IMPORTADOR_CLIENTE');
-      raise Exception.Create('Erro ao carregar cliente ' + cliente.GetFieldAsString('NOME') + ' ' + E.Message);
+      AddLog(0,'Erro ao carregar cliente ' + cliente.GetFieldAsString('E_MAIL') + ' ' + E.Message,'ERRO_IMPORTADOR_CLIENTE');
+      raise Exception.Create('Erro ao carregar cliente ' + cliente.GetFieldAsString('E_MAIL') + ' ' + E.Message);
     end;
   end;
 end;
