@@ -160,12 +160,13 @@ begin
           begin
             result := Call('MILLENIUM_ECO.CLIENTES.INCLUIROUALTERAR', cliente, true, '', urlRest);
 
-            if (VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value)<>'') then
+            if (VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value)<>'') AND
+               (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value)) then
             begin
               try
                 //evento para workflow
                 cmd01.Dim('CLIENTE',result.GetFieldByName('CLIENTE'));
-                cmd01.Dim('EMAIL',result.GetFieldByName('CLIENTE'));
+                cmd01.Dim('EMAIL',result.GetFieldByName('E_MAIL'));
                 cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.EV_INCLUIRCLIENTE(CLIENTE=:CLIENTE,EMAIL=:EMAIL)');
                 AddLog(0,'cliente importado ' + cliente.GetFieldAsString('NOME'),'ERRO_IMPORTADOR_CLIENTE');
               except
