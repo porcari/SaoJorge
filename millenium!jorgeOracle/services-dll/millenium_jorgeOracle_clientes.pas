@@ -35,7 +35,7 @@ procedure Importar(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool)
       end;
     end;
 var cmd01: IwtsCommand;
-    cliente, requestPedido, responsePedido, enderecos,vitOracle,result: IwtsWriteData;
+    cliente, requestPedido, responsePedido, enderecos,enderecosDefault,vitOracle,result: IwtsWriteData;
     jarr: TJSONarray;
     grantType, accessToken, sres, urlBase, urlRest, ddd, fone, nome, contato,json,idCliente: string;
     total: Double;
@@ -44,6 +44,18 @@ var cmd01: IwtsCommand;
 begin
   try
     cliente := DataPool.CreateRecordset('MILLENIUM_ECO.CLIENTES.CLIENTES');
+    enderecosDefault := DataPool.CreateRecordset('MILLENIUM_ECO.CLIENTES.ENDERECO');
+    enderecosDefault.New;
+    enderecosDefault.SetFieldByName('LOGRADOURO', 'DEFAULT');
+    enderecosDefault.SetFieldByName('NUMERO', '999');
+    enderecosDefault.SetFieldByName('COMPLEMENTO', 'DEFAULT');
+    enderecosDefault.SetFieldByName('BAIRRO', 'DEFAULT');
+    enderecosDefault.SetFieldByName('CIDADE', 'SÃO PAULO');
+    enderecosDefault.SetFieldByName('ESTADO', 'SP');
+    enderecosDefault.SetFieldByName('CEP', '19900-000');
+    enderecosDefault.SetFieldByName('CONTATO', '');
+    enderecosDefault.SetFieldByName('TIPO_SEXO', 'U');
+    enderecosDefault.Add;
 
     cmd01 := DataPool.Open('millenium');
 
@@ -97,7 +109,6 @@ begin
         cliente.New;
         cliente.SetFieldByName('NOME', AnsiUpperCase(AbreviaNome(nome, 120)));
         cliente.SetFieldByName('FANTASIA', '');
-        cliente.SetFieldByName('OBS', 'INTEGRAÇÂO ORACLE');
         cliente.SetFieldByName('DATA_ANIVERSARIO', '');
         cliente.SetFieldByName('DDD_CEL', ddd);
         cliente.SetFieldByName('CEL', fone);
@@ -127,6 +138,7 @@ begin
 
         //Endereços
         enderecos := DataPool.CreateRecordset('MILLENIUM_ECO.CLIENTES.ENDERECO');
+
         for x := 0 to jarr.Field['items'].Child[i].Field['shippingAddresses'].Count - 1 do
         begin
           contato := '';
@@ -140,7 +152,6 @@ begin
           enderecos.SetFieldByName('BAIRRO', copy(AnsiUpperCase(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['county'].Value)), 1, 20));
           enderecos.SetFieldByName('CIDADE', copy(RemoveAcentos(AnsiUpperCase(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['city'].Value))), 1, 40));
           enderecos.SetFieldByName('ESTADO', copy(AnsiUpperCase(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['state'].Value)), 1, 3));
-          //enderecos.SetFieldByName('NOME_PAIS', 'BRASIL');
           enderecos.SetFieldByName('CEP', copy(Unformat(VarToStr(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['postalCode'].Value)), 1, 9));
           enderecos.SetFieldByName('CONTATO', contato);
           if jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['phoneNumber'].JsonText<>'null' then
@@ -149,40 +160,38 @@ begin
             enderecos.SetFieldByName('FONE', buscaFone(jarr.Field['items'].Child[i].Field['shippingAddresses'].Child[x].Field['phoneNumber'].Value));
           end;
           enderecos.SetFieldByName('TIPO_SEXO', 'U');
-          enderecos.Add; 
+          enderecos.Add;
         end;
-        cliente.SetFieldByName('ENDERECO', enderecos);
+        enderecos.First;
+        if enderecos.EOF then
+          cliente.SetFieldByName('ENDERECO', enderecosDefault)
+        else
+          cliente.SetFieldByName('ENDERECO', enderecos);
         cliente.Add;
 
         try
-          enderecos.First;
-          if not enderecos.EOF then
-          begin
-            result := Call('MILLENIUM_ECO.CLIENTES.INCLUIROUALTERAR', cliente, true, '', urlRest);
+          result := Call('MILLENIUM_ECO.CLIENTES.INCLUIROUALTERAR', cliente, true, '', urlRest);
 
-            if (VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value)<>'') AND
-               (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value)) then
-            begin
-              try
-                //evento para workflow
-                cmd01.Dim('CLIENTE',result.GetFieldByName('CLIENTE'));
-                cmd01.Dim('EMAIL',cliente.GetFieldAsString('E_MAIL'));
-                cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.EV_INCLUIRCLIENTE(CLIENTE=:CLIENTE,EMAIL=:EMAIL)');
-                AddLog(0,'cliente importado ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
-              except
-                on E: Exception do
-                begin
-                  raise Exception.Create('Erro ao disparar evento do cliente ' + E.Message);
-                end;
+          if (VarToStr(jarr.Field['items'].Child[i].Field['pjCnpj'].Value)<>'') AND
+             (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value)) then
+          begin
+            try
+              //evento para workflow
+              cmd01.Dim('CLIENTE',result.GetFieldByName('CLIENTE'));
+              cmd01.Dim('EMAIL',cliente.GetFieldAsString('E_MAIL'));
+              cmd01.execute('#CALL MILLENIUM!JORGEORACLE.CLIENTES.EV_INCLUIRCLIENTE(CLIENTE=:CLIENTE,EMAIL=:EMAIL)');
+              AddLog(0,'cliente importado ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
+            except
+              on E: Exception do
+              begin
+                raise Exception.Create('Erro ao disparar evento do cliente ' + E.Message);
               end;
-            end
-            else
-            begin
-               AddLog(0,'cliente sem necessidade de importar ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
             end;
           end
           else
-            AddLog(0,'cliente sem endereço ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
+          begin
+             AddLog(0,'cliente sem necessidade de disparar evento ' + cliente.GetFieldAsString('E_MAIL'),'ERRO_IMPORTADOR_CLIENTE');
+          end;
 
           if (not VarToBool(jarr.Field['items'].Child[i].Field['usr_importado'].Value))  then
           begin
@@ -358,72 +367,6 @@ begin
     FreeAndNil(jarr);
   end;
 end;
-(*
-procedure MarcarAtacado(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool);
-var cmd01: IwtsCommand;
-  cliente, requestPedido, responsePedido, enderecos,vitOracle: IwtsWriteData;
-  jarr: TJSONarray;
-  grantType, accessToken, sres, urlBase, urlRest, ddd, fone, nome, contato,json,id: string;
-  total: Double;
-  userAtacado: Boolean;
-  i, x,vitrine,pag: Integer;
-begin
-  cliente := DataPool.CreateRecordset('MILLENIUM!JORGEORACLE.CLIENTES.LISTARORACLE',true);
-
-  cmd01 := DataPool.Open('millenium');
-
-  cmd01.execute('SELECT VDO.USUARIO_WEBSERVICE, ' +
-                '       VDO.SENHA_WEBSERVICE, ' +
-                '       VDO.URL_WEBSERVICE, ' +
-                '       V.VITRINE ' +
-                'FROM VITRINE V ' +
-                'INNER JOIN VITRINE_DADOS_ORACLE VDO ON VDO.VITRINE = V.VITRINE ' +
-                'WHERE V.EXPORTADOR ="14"');
-
-  vitOracle := cmd01.CreateRecordset();
-
-  if vitOracle.EOF then
-    raise Exception.Create('Dados adicionais da integração Oracle não encontrado!');
-
-  if vitOracle.RecordCount<>1 then
-    raise Exception.Create('Existe mais de uma vitrine Oracle. Processo não suportado!');
-
-  grantType := 'grant_type=password&username=' + vitOracle.GetFieldAsString('USUARIO_WEBSERVICE') + '&password=' + vitOracle.GetFieldAsString('SENHA_WEBSERVICE');
-  urlBase := vitOracle.GetFieldAsString('URL_WEBSERVICE');
-  vitrine := vitOracle.GetFieldByName('VITRINE');
-  urlRest := '';
-  accessToken := '';
-
-  for x := 0 to 255 do
-  begin
-
-    sres := RestClientCenter(accessToken, grantType, 'Get', urlBase, PChar('/ccadmin/v1/skus?offset='+FloatToStr(x*250)+'&sort=active'));
-
-    jarr := ParseJSON(PChar(utf8.UTF8ToString(sres)));
-    try
-      for i := 0 to jarr.Field['items'].Count - 1 do
-      begin
-
-        if not VarToBool(jarr.Field['items'].Child[i].Field['active'].Value) then
-        begin
-          try
-            RestClientCenter(accessToken, grantType, 'Put', urlBase, PChar('/ccadmin/v1/skus/'+VarToStr(jarr.Field['items'].Child[i].Field['repositoryId'].Value)),'{"active" :true}');
-          except
-            on E: Exception do
-            begin
-              AddLog(0,'Erro ao marcar sku como ativo ' + E.Message,'ERRO_IMPORTADOR_SKU');
-            end;
-          end;
-        end
-        else
-          AddLog(0,'Erro ao marcar sku como ativo ','ERRO_IMPORTADOR_SKU')
-      end;
-    finally
-      FreeAndNil(jarr);
-    end;
-  end;
-end; *)
-
 
 procedure MarcarAtacado(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool);
 var cmd01: IwtsCommand;
