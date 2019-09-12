@@ -14,7 +14,8 @@ uses
   wtsmemorym_intf,
   wtsServerObjs in 'Z:\WDTS\server\common\wtsServerObjs.pas',
   millenium_jorgeOracle_clientes in 'millenium_jorgeOracle_clientes.pas',
-  millenium_jorgeOracle_estoques in 'millenium_jorgeOracle_estoques.pas';
+  millenium_jorgeOracle_estoques in 'millenium_jorgeOracle_estoques.pas',
+  millenium_jorgeOracle_produtos in 'millenium_jorgeOracle_produtos.pas';
 
 exports
   wtsLibEntry,

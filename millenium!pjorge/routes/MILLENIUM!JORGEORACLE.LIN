@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<root>
+	<_currentid>ORC_1</_currentid>
+	<_name>RULES.JORGEORACLE</_name>
+
+	<link category="PROCESSOS INTERNOS\Vitrine Oracle\Listar Clientes" target="standard.tdataedit" _id="ORC_2" Caption="Listar Clientes" ORDER="1">
+		<method>MILLENIUM!JORGEORACLE.CLIENTES.LISTARORACLE</method>
+
+		<link target="standard.tdataedit" _id="ORC_3" Caption="Importar Para Millennium" ORDER="1">
+			<method>MILLENIUM!JORGEORACLE.CLIENTES.IMPORTAR</method>
+			<EMAIL>{$data.EMAIL}</EMAIL>
+			<Option>CloseOnSubmit</Option>
+			<Message>Confirma a Importação do Cliente? </Message>				
+		</link>	
+
+		<link target="standard.tdataedit" _id="ORC_4" Caption="Marcar Atacado Na Oracle" ORDER="2">
+			<method>MILLENIUM!JORGEORACLE.CLIENTES.MarcarAtacado</method>
+			<ID>{$data.ID}</ID>
+			<Option>CloseOnSubmit</Option>
+			<Message>Confirma alterar o cliente como Atacado na Plataforma Oracle? </Message>				
+		</link>	
+	</link>	
+	<link category="PROCESSOS INTERNOS\Vitrine Oracle\Listar Estoques" target="standard.tdataedit" _id="ORC_5" Caption="Listar Estoques" ORDER="1">
+		<method>MILLENIUM!JORGEORACLE.ESTOQUES.LISTARORACLE</method>
+	</link>		
+	<link category="PROCESSOS INTERNOS\Vendas\Listar Clientes" target="standard.tdataedit" _id="ORC_6" Caption="Listar Clientes" ORDER="1">
+		<method>MILLENIUM!JORGEORACLE.CLIENTES.LISTARSIMPLES</method>
+	</link>		
+</root>
+

@@ -36,6 +36,7 @@
     </DelphiCompile>
     <DCCReference Include="millenium_jorgeOracle_clientes.pas" />
     <DCCReference Include="millenium_jorgeOracle_estoques.pas" />
+    <DCCReference Include="millenium_jorgeOracle_produtos.pas" />
     <DCCReference Include="Z:\WDTS\server\common\wtsServerObjs.pas" />
   </ItemGroup>
 </Project>
