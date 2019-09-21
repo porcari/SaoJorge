@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="CLIENTES">
+    <METHOD NAME="AtualizarEmblue" DESCRIPTION="" VERSION="2" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="URL" SIZE="250" FLAGS="1" PROJECTION="0" FIELDLABEL="Nome" CTAB="0"/>
+        <PARAM NAME="TOKEN" SIZE="250" FLAGS="1" PROJECTION="0" FIELDLABEL="Token" CTAB="0"/>
+        <PARAM NAME="ATRIBUTOS" FORMAT="R" FLAGS="1" PROJECTION="0" FIELDLABEL="Atributos" NESTEDNAME="millenium!jorgeEmblue.CLIENTES.ATRIBUTOS" CTAB="0"/>
+      </PARAMS>
+      <FIELDS/>
+      <ACTIONSCRIPT>
+</ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>

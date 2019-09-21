@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="CLIENTES">
+    <METHOD NAME="ATRIBUTOS" DESCRIPTION="" VERSION="1" INTFTYPE="9" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="NOME" SIZE="60" FLAGS="1" PROJECTION="0" FIELDLABEL="Nome" CTAB="0"/>
+        <PARAM NAME="VALOR" SIZE="250" FLAGS="1" PROJECTION="0" FIELDLABEL="Valor" CTAB="0"/>
+      </PARAMS>
+      <FIELDS/>
+      <ACTIONSCRIPT></ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>

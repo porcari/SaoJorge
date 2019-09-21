@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="CLIENTES">
+    <METHOD NAME="Enviar" DESCRIPTION="" VERSION="3" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="ENVIO" FORMAT="R" FLAGS="1" PROJECTION="0" FIELDLABEL="Envio" NESTEDNAME="millenium!jorgeEmblue.INTEGRACOES.ENVIO" CTAB="0"/>
+      </PARAMS>
+      <FIELDS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <FIELD NAME="RETORNO" FORMAT="R" FLAGS="1" PROJECTION="0" FIELDLABEL="Retorno" NESTEDNAME="millenium!jorgeEmblue.INTEGRACOES.RETORNO" CTAB="0"/>
+      </FIELDS>
+      <ACTIONSCRIPT>
+</ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>

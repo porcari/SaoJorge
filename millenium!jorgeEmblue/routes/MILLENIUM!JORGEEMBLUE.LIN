@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<root>
+	<_currentid>EBL_1</_currentid>
+	<_name>RULES.JORGEEMBLUE</_name>
+
+	<link category="PROCESSOS INTERNOS\EMBLUE\Integrações" target="_blank,standard.tdataedit" _id="EBL_2" Caption="Integrações" ORDER="1">
+		<OBJECT>MILLENIUM!JORGEEMBLUE.INTEGRACOES</OBJECT>
+	</link>	
+	<link category="PROCESSOS INTERNOS\EMBLUE\Integrações Log" target="_blank,standard.tdataedit" _id="EBL_3" Caption="Integrações Log" ORDER="1">
+		<METHOD>MILLENIUM!JORGEEMBLUE.LOG.LISTARLOG</METHOD>
+                   <link target="_blank,standard.tdataedit" _id="EBL_4" caption="Itens do Log" _tag="2"> 
+                      <METHOD Key="{$data.PRODUTO}">MILLENIUM!JORGEEMBLUE.LOG.LISTARLOG</METHOD>
+                      <PARAM DATA="{$data.INTEGRACAO}" >INTEGRACAO</PARAM>
+                  </link>
+	</link>		
+</root>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="INTEGRACOES">
+    <METHOD NAME="Executar" DESCRIPTION="" VERSION="3" THREADSAFE="0">
+      <PARAMS/>
+      <FIELDS/>
+      <ACTIONSCRIPT>
+</ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>

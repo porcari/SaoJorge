@@ -1,0 +1,7 @@
+<modules>
+	<properties>
+		<version>1.0</version>		
+		<description>Módulo de integração emblue do cliente São Jorge</description>	
+		<author>Consultor</author>
+	</properties>
+</modules>
