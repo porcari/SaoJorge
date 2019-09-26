@@ -9,56 +9,51 @@ uses
   Classes, IdCoderMIME, jpeg, logfiles, millenium_jorgeEmblue_Utils;
 
 procedure Enviar(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool);
-    procedure SetField(var AAtributos:IwtsWriteData;const ACampo,AValor:String);
-    begin
-      AAtributos.New;
-      AAtributos.SetFieldByName('NOME',ACampo);
-      AAtributos.SetFieldByName('VALOR',AValor);
-      AAtributos.Add;
-    end;
 var cmd01: IwtsCommand;
-    ClientesMillennium,Envio,Retorno,ItensLog,ItensErro,Atributos:IwtsWriteData;
-    QTDProcessados,TransId:Integer;
+    ClientesMillennium,Envio,Retorno,ItensLog,ItensErro:IwtsWriteData;
+    TransId:Integer;
     i: Integer;
 begin
   try
     try
       cmd01 := DataPool.Open('millenium');
       Retorno := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.INTEGRACOES.RETORNO');
-      Atributos := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.CLIENTES.ATRIBUTOS');
       ItensLog := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.INTEGRACOES.ITENS_LOG');
       ItensErro := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.INTEGRACOES.ITENS_ERRO');
       Envio := Input.GetParamAsData('ENVIO') as IwtsWriteData;
-      QTDProcessados := 0;
+      ClientesMillennium := Input.GetParamAsData('ATRIBUTOS') as IwtsWriteData;
       TransId := Envio.Value['TRANS_ID'];
-
-      cmd01.Dim('TRANS_ID',TransId);
-      cmd01.Execute('#CALL MILLENIUM!JORGEEMBLUE.CLIENTES.LISTAR(TRANS_ID=:TRANS_ID) ');
-      ClientesMillennium := cmd01.CreateRecordset();
-
-      QTDProcessados := ClientesMillennium.RecordCount;
 
       ClientesMillennium.First;
       while not ClientesMillennium.EOF do
       begin
         try
-          TransId :=  ClientesMillennium.Value['TRANS_ID'];
-          Atributos.Clear;
-          SetField(Atributos,'nome',ClientesMillennium.AsString['NOME']);
+          if TransId<ClientesMillennium.Value['TRANS_ID'] then          
+            TransId :=  ClientesMillennium.Value['TRANS_ID'];
 
           cmd01.Dim('URL',Envio.AsString['URL']);
           cmd01.Dim('TOKEN',Envio.AsString['TOKEN']);
-          cmd01.DimAsData('ATRIBUTOS',Atributos);
-          cmd01.Execute('#CALL MILLENIUM!JORGEEMBLUE.CLIENTES.ATUALIZAREMBLUE(URL=:URL,TOKEN=:TOKEN,ATRIBUTOS=:ATRIBUTOS)')
+          cmd01.Dim('EMAIL',ClientesMillennium.Value['EMAIL']);
+          cmd01.Dim('NOME',ClientesMillennium.Value['NOME']);
+          cmd01.Dim('CPF_CNPJ',ClientesMillennium.Value['CPF_CNPJ']);
+          cmd01.Dim('CEP',ClientesMillennium.Value['CEP']);
+          cmd01.Execute('#CALL MILLENIUM!JORGEEMBLUE.CLIENTES.ATUALIZAREMBLUE(URL=:URL,TOKEN=:TOKEN,EMAIL=:EMAIL,NOME=:NOME,CPF_CNPJ=:CPF_CNPJ,CEP=:CEP)');
+
+          ItensLog.New;
+          ItensLog.SetFieldByName('CODIGO',ClientesMillennium.AsString['COD_CLIENTE']);
+          ItensLog.SetFieldByName('OBS','Sucesso na atualização do cliente '+ClientesMillennium.Value['NOME']);
+          ItensLog.SetFieldByName('DATA',now);
+          ItensLog.Add;
         except
           on E: Exception do
           begin
             ItensErro.New;
-            ItensErro.SetFieldByName('CODIGO',ClientesMillennium.AsString['COD_CLIENTE']);
+            ItensErro.SetFieldByName('CODIGO',ClientesMillennium.AsString['CLIENTE']);
+            ItensErro.SetFieldByName('OBS',copy(ClientesMillennium.AsString['COD_CLIENTE']+' - '+ClientesMillennium.Value['NOME']+' / '+ClientesMillennium.Value['EMAIL'],0,250));
             ItensErro.Add;
 
             ItensLog.New;
-            ItensLog.SetFieldByName('CODIGO','');
+            ItensLog.SetFieldByName('CODIGO',ClientesMillennium.AsString['COD_CLIENTE']);
             ItensLog.SetFieldByName('OBS','ERRO: '+e.Message);
             ItensLog.SetFieldByName('DATA',now);
             ItensLog.Add;
@@ -81,7 +76,6 @@ begin
     Retorno.SetFieldByName('TRANS_ID',TransId);
     Retorno.SetFieldByName('ITENS_ERRO',ItensErro);
     Retorno.SetFieldByName('ITENS_LOG',ItensLog);
-    Retorno.SetFieldByName('QTD_REGISTROS_PROCESSADOS',QTDProcessados);
     Retorno.Add;
 
     Retorno.First;
@@ -96,11 +90,13 @@ var RestEmBlue:TRestEmblue;
 begin
   RestEmBlue := TRestEmblue.Create(Input.AsString['TOKEN'],Input.AsString['URL']);
   try
-    json := '{"email": "fulanoo@hotmail.com", '+
+    json := '{"email": "'+Input.AsString['EMAIL']+'", '+
             ' "eventName": "ev_incluiroualterar", '+
-            ' "attributes": {"nome": "evento bbb"}}';
+            ' "attributes": {"nome": "'+Input.AsString['NOME']+'",'+
+            '                "cpf_cnpj": "'+Input.AsString['CPF_CNPJ']+'",'+
+            '                "cep": "'+Input.AsString['CEP']+'"}}';
 
-    RestEmBlue.Post(json)
+    RestEmBlue.Post(json);
   finally
     FreeAndNil(RestEmBlue);
   end;

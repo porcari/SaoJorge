@@ -6,11 +6,12 @@
 	<link category="PROCESSOS INTERNOS\EMBLUE\Integrações" target="_blank,standard.tdataedit" _id="EBL_2" Caption="Integrações" ORDER="1">
 		<OBJECT>MILLENIUM!JORGEEMBLUE.INTEGRACOES</OBJECT>
 	</link>	
-	<link category="PROCESSOS INTERNOS\EMBLUE\Integrações Log" target="_blank,standard.tdataedit" _id="EBL_3" Caption="Integrações Log" ORDER="1">
+	<link category="PROCESSOS INTERNOS\EMBLUE\Log Integrações" target="_blank,standard.tdataedit" _id="EBL_3" Caption="Log Integrações" ORDER="1">
 		<METHOD>MILLENIUM!JORGEEMBLUE.LOG.LISTARLOG</METHOD>
                    <link target="_blank,standard.tdataedit" _id="EBL_4" caption="Itens do Log" _tag="2"> 
-                      <METHOD Key="{$data.PRODUTO}">MILLENIUM!JORGEEMBLUE.LOG.LISTARLOG</METHOD>
-                      <PARAM DATA="{$data.INTEGRACAO}" >INTEGRACAO</PARAM>
+                      <METHOD>MILLENIUM!JORGEEMBLUE.LOG.LISTADETALHESLOG</METHOD>
+                      <PARAM DATA="{$data.EBL_LOG}">EBL_LOG</PARAM>
+                      <Option>AutoSubmit</Option>
                   </link>
 	</link>		
 </root>

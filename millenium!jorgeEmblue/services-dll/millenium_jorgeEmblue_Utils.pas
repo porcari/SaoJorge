@@ -18,7 +18,7 @@ type
   end;
 
 function IncializaLog(ADataPool:IwtsDataPool;const AIntegracao,ATransId:String):String;
-Procedure FinalizaLog(ADataPool:IwtsDataPool;const AIdLog,AQTDProcessados:String);
+Procedure FinalizaLog(ADataPool:IwtsDataPool;const AIdLog,AQTDProcessados,AStatus:String);
 Procedure GravaItemLog(ADataPool:IwtsDataPool;const AIdLog,ACodigo,AObs:String;const Adata:TDateTime);
 Procedure LimpaLog(ADataPool:IwtsDataPool);
 
@@ -80,7 +80,7 @@ begin
 
   RESTClient := TRESTClient.Create('');
   try
-    RESTClient.Headers := 'Accept:application/json'#13+
+    RESTClient.Headers := 'Accept:*/*'#13+
                           'Content-Type:application/json'#13+
                           'Authorization:Basic '+AToken;
     for x := 0 to 2 do
@@ -142,7 +142,7 @@ begin
   result := cmd01.AsString['EBL_LOG'];
 end;
 
-Procedure FinalizaLog(ADataPool:IwtsDataPool;const AIdLog,AQTDProcessados:String);
+Procedure FinalizaLog(ADataPool:IwtsDataPool;const AIdLog,AQTDProcessados,AStatus:String);
 var cmd01:IwtsCommand;
 begin
   cmd01 := ADataPool.Open('millenium');
@@ -150,7 +150,8 @@ begin
   cmd01.Dim('EBL_LOG',AIdLog);
   cmd01.Dim('EBL_DATA_FINAL',Now);
   cmd01.Dim('EBL_REGISTROS_PROCESSADOS',AQTDProcessados);
-  cmd01.execute('UPDATE EBL_LOGS SET EBL_DATA_FINAL=:EBL_DATA_FINAL,EBL_REGISTROS_PROCESSADOS=:EBL_REGISTROS_PROCESSADOS '+
+  cmd01.Dim('STATUS_ULTIMO_PROCESSO',AStatus);
+  cmd01.execute('UPDATE EBL_LOGS SET EBL_DATA_FINAL=:EBL_DATA_FINAL,EBL_REGISTROS_PROCESSADOS=:EBL_REGISTROS_PROCESSADOS,EBL_STATUS_ULTIMO_PROCESSO=:STATUS_ULTIMO_PROCESSO '+
                 'WHERE EBL_LOG=:EBL_LOG ');
 end;
 
