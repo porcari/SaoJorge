@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root>
   <OBJECT NAME="INTEGRACOES">
-    <METHOD NAME="Listar" DESCRIPTION="Integra&#231;&#245;es Emblue" VERSION="8" INTFTYPE="5" THREADSAFE="0">
+    <METHOD NAME="Listar" DESCRIPTION="Integra&#231;&#245;es Emblue" VERSION="9" INTFTYPE="5" THREADSAFE="0">
       <PARAMS>
         <GROUPS>
           <GROUP/>
