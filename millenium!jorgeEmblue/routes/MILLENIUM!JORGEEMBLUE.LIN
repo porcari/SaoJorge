@@ -3,15 +3,24 @@
 	<_currentid>EBL_1</_currentid>
 	<_name>RULES.JORGEEMBLUE</_name>
 
-	<link category="PROCESSOS INTERNOS\EMBLUE\Integrações" target="_blank,standard.tdataedit" _id="EBL_2" Caption="Integrações" ORDER="1">
+	<link category="PROCESSOS INTERNOS\EmBlue\Integrações" target="_blank,standard.tdataedit" _id="EBL_2" Caption="Integrações" ORDER="1">
 		<OBJECT>MILLENIUM!JORGEEMBLUE.INTEGRACOES</OBJECT>
 	</link>	
-	<link category="PROCESSOS INTERNOS\EMBLUE\Log Integrações" target="_blank,standard.tdataedit" _id="EBL_3" Caption="Log Integrações" ORDER="1">
+	<link category="PROCESSOS INTERNOS\EmBlue\Registros de Log" target="_blank,standard.tdataedit" _id="EBL_3" Caption="Registros de Log" ORDER="1">
 		<METHOD>MILLENIUM!JORGEEMBLUE.LOG.LISTARLOG</METHOD>
                    <link target="_blank,standard.tdataedit" _id="EBL_4" caption="Itens do Log" _tag="2"> 
                       <METHOD>MILLENIUM!JORGEEMBLUE.LOG.LISTADETALHESLOG</METHOD>
-                      <PARAM DATA="{$data.EBL_LOG}">EBL_LOG</PARAM>
-                      <Option>AutoSubmit</Option>
+                      <PARAM DATA="{$data.EBL_LOG}" >EBL_LOG</PARAM>
+                      <Option>AutoRefresh</Option>
+                  </link>
+	</link>	
+	<link category="PROCESSOS INTERNOS\EmBlue\Itens com Erro" target="_blank,standard.tdataedit" _id="EBL_5" Caption="Itens com Erro" ORDER="1">
+		<METHOD>MILLENIUM!JORGEEMBLUE.INTEGRACOES.LISTARITENSERRO</METHOD>
+                <Option>AutoRefresh</Option>
+                   <link target="_blank,standard.tdataedit" _id="EBL_6" caption="Reprocessar Selecionados" _tag="2"> 
+                      <METHOD>MILLENIUM!JORGEEMBLUE.INTEGRACOES.REPROCESSARITENSERRO</METHOD>
+                      <PARAM DATA="{$data.INTEGRACAO}" >INTEGRACAO</PARAM>
+                      <Option>CloseOnSubmit</Option>
                   </link>
 	</link>		
 </root>

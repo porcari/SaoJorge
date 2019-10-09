@@ -10,7 +10,7 @@ uses
 
 procedure Enviar(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool);
 var cmd01: IwtsCommand;
-    ClientesMillennium,Envio,Retorno,ItensLog,ItensErro:IwtsWriteData;
+    ClientesMillennium,Atributos,Envio,Retorno,ItensLog,ItensErro:IwtsWriteData;
     TransId:Integer;
     i: Integer;
 begin
@@ -20,6 +20,7 @@ begin
       Retorno := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.INTEGRACOES.RETORNO');
       ItensLog := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.INTEGRACOES.ITENS_LOG');
       ItensErro := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.INTEGRACOES.ITENS_ERRO');
+      Atributos := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.CLIENTES.ATRIBUTOS');
       Envio := Input.GetParamAsData('ENVIO') as IwtsWriteData;
       ClientesMillennium := Input.GetParamAsData('ATRIBUTOS') as IwtsWriteData;
       TransId := Envio.Value['TRANS_ID'];
@@ -33,11 +34,16 @@ begin
 
           cmd01.Dim('URL',Envio.AsString['URL']);
           cmd01.Dim('TOKEN',Envio.AsString['TOKEN']);
+
+          Atributos.Clear;
+          Atributos.New;
+          CopyDataToData(ClientesMillennium,Atributos);
+          Atributos.Add;
+           
           cmd01.Dim('EMAIL',ClientesMillennium.Value['EMAIL']);
           cmd01.Dim('NOME',ClientesMillennium.Value['NOME']);
-          cmd01.Dim('CPF_CNPJ',ClientesMillennium.Value['CPF_CNPJ']);
-          cmd01.Dim('CEP',ClientesMillennium.Value['CEP']);
-          cmd01.Execute('#CALL MILLENIUM!JORGEEMBLUE.CLIENTES.ATUALIZAREMBLUE(URL=:URL,TOKEN=:TOKEN,EMAIL=:EMAIL,NOME=:NOME,CPF_CNPJ=:CPF_CNPJ,CEP=:CEP)');
+          cmd01.Dim('ATRIBUTOS',Atributos);
+          cmd01.Execute('#CALL MILLENIUM!JORGEEMBLUE.CLIENTES.ATUALIZAREMBLUE(URL=:URL,TOKEN=:TOKEN,ATRIBUTOS=:ATRIBUTOS)');
 
           ItensLog.New;
           ItensLog.SetFieldByName('CODIGO',ClientesMillennium.AsString['COD_CLIENTE']);
@@ -86,17 +92,32 @@ end;
 
 procedure AtualizarEmblue(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool);
 var RestEmBlue:TRestEmblue;
+    Atributos:IwtsWriteData;
     json:String;
+    i: Integer;
 begin
+  Atributos := DataPool.CreateRecordset('MILLENIUM!JORGEEMBLUE.CLIENTES.ATRIBUTOS');
+  Atributos := Input.GetParamAsData('ATRIBUTOS') as IwtsWriteData;
   RestEmBlue := TRestEmblue.Create(Input.AsString['TOKEN'],Input.AsString['URL']);
   try
-    json := '{"email": "'+Input.AsString['EMAIL']+'", '+
-            ' "eventName": "ev_incluiroualterar", '+
-            ' "attributes": {"nome": "'+Input.AsString['NOME']+'",'+
-            '                "cpf_cnpj": "'+Input.AsString['CPF_CNPJ']+'",'+
-            '                "cep": "'+Input.AsString['CEP']+'"}}';
+    atributos.First;
+    while not Atributos.EOF do
+    begin
+      json := '';
+      for i := 0 to Atributos.FieldCount - 1 do
+      begin
+        json := json + '"'+LowerCase(Atributos.FieldName(i))+'":"'+Atributos.AsString[Pchar(Atributos.FieldName(i))]+'",';
+      end;
 
-    RestEmBlue.Post(json);
+      SetLength(json,length(json)-1);
+
+      json := '{"email": "'+Atributos.AsString['EMAIL']+'", '+
+              ' "eventName": "ev_incluiroualterar", '+
+              ' "attributes": {'+json+'}}';
+
+      RestEmBlue.Post(json);
+      Atributos.Next;
+    end;
   finally
     FreeAndNil(RestEmBlue);
   end;
