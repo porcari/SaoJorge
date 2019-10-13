@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="CLIENTES">
+    <METHOD NAME="DESCADASTROS" DESCRIPTION="" VERSION="4" INTFTYPE="9" THREADSAFE="0">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="EMAIL" SIZE="250" FLAGS="1" PROJECTION="0" ORDER="2" FIELDLABEL="E-mail" CTAB="0"/>
+        <PARAM NAME="NOME" SIZE="250" FLAGS="1" PROJECTION="0" ORDER="1" FIELDLABEL="Nome" CTAB="0"/>
+      </PARAMS>
+      <FIELDS/>
+      <ACTIONSCRIPT></ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>
