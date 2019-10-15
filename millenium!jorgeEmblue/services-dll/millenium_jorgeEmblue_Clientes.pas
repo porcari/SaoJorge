@@ -39,7 +39,10 @@ begin
           Atributos.New;
           CopyDataToData(ClientesMillennium,Atributos);
           Atributos.Add;
-           
+
+          if ClientesMillennium.AsString['EMAIL']='' then
+            raise exception.Create('Cliente sem e-mail cadastrado');
+
           cmd01.Dim('EMAIL',ClientesMillennium.Value['EMAIL']);
           cmd01.Dim('NOME',ClientesMillennium.Value['NOME']);
           cmd01.Dim('ATRIBUTOS',Atributos);
@@ -55,7 +58,7 @@ begin
           begin
             ItensErro.New;
             ItensErro.SetFieldByName('CODIGO',ClientesMillennium.AsString['CLIENTE']);
-            ItensErro.SetFieldByName('OBS',copy(ClientesMillennium.AsString['COD_CLIENTE']+' - '+ClientesMillennium.Value['NOME']+' / '+ClientesMillennium.Value['EMAIL'],0,250));
+            ItensErro.SetFieldByName('OBS',copy('Cliente'+ClientesMillennium.AsString['COD_CLIENTE']+' - '+ClientesMillennium.Value['NOME']+': '+e.Message,0,250));
             ItensErro.Add;
 
             ItensLog.New;

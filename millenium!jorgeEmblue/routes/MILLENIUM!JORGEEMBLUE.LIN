@@ -14,14 +14,9 @@
                       <Option>AutoRefresh</Option>
                   </link>
 	</link>	
-	<link category="PROCESSOS INTERNOS\EmBlue\Itens com Erro" target="_blank,standard.tdataedit" _id="EBL_5" Caption="Itens com Erro" ORDER="1">
-		<METHOD>MILLENIUM!JORGEEMBLUE.INTEGRACOES.LISTARITENSERRO</METHOD>
-                <Option>AutoRefresh</Option>
-                   <link target="_blank,standard.tdataedit" _id="EBL_6" caption="Reprocessar Selecionados" _tag="2"> 
-                      <METHOD>MILLENIUM!JORGEEMBLUE.INTEGRACOES.REPROCESSARITENSERRO</METHOD>
-                      <PARAM DATA="{$data.INTEGRACAO}" >INTEGRACAO</PARAM>
-                      <Option>CloseOnSubmit</Option>
-                  </link>
+	<link category="PROCESSOS INTERNOS\EmBlue\Itens com Erro" target="_blank,millenium_jorgeEmblue.TFItensErro" _id="EBL_5" Caption="Itens com Erro" ORDER="1">
+	</link>	
+	<link category="PROCESSOS INTERNOS\EmBlue\Descadastrar Clientes (EXCEL)" target="_blank,millenium_jorgeEmblue.TFClientesDescredenciados" _id="EBL_6" Caption="Descadastrar Clientes (EXCEL)" ORDER="1">
 	</link>		
 </root>
 

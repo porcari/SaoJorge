@@ -1,0 +1,135 @@
+[Compiler]
+A=1
+B=0
+C=1
+D=1
+E=0
+F=0
+G=1
+H=1
+I=1
+J=1
+K=0
+L=1
+M=0
+N=1
+O=1
+P=1
+Q=0
+R=0
+S=0
+T=0
+U=0
+V=1
+W=0
+X=1
+Y=1
+Z=1
+ShowHints=1
+ShowWarnings=1
+UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[Linker]
+MapFile=0
+OutputObjs=0
+ConsoleApp=1
+DebugInfo=0
+RemoteSymbols=0
+MinStackSize=16384
+MaxStackSize=1048576
+ImageBase=4194304
+ExeDescription=
+[Directories]
+OutputDir=c:\millenium
+UnitOutputDir=
+PackageDLLOutputDir=
+PackageDCPOutputDir=
+SearchPath=z:\EurekaLog 6\Delphi5;Z:\millenium\Paginas;Z:\WDTS\ExtControls;Z:\wtsTestRunner\fontes;Z:\DimMod;Z:\xml\source;Z:\millenium\Eventos;Z:\crypto;Z:\indy\Source;Z:\VirtualTreeView\Source
+Packages=Vcl50;Vclx50;Vcldb50;Vclbde50;vcldbx50;vclie50;Inetdb50;Inet50;Qrpt50;NMFast50;VCLIB50;Vclmid50;dclocx50;VclSmp50;webmid50;ibevnt50;vclado50;LittlePack
+Conditionals=
+DebugSourceDirs=
+UsePackages=0
+[Parameters]
+RunParams=-user MILLENNIUM -pass NWK1659
+HostApplication=c:\millenium\binbrowser.exe
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1046
+CodePage=1252
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+[Excluded Packages]
+$(DELPHI)\Bin\dclaxserver50.bpl=Borland Sample Automation Server Components
+$(DELPHI)\Bin\dclite50.bpl=Borland Integrated Translation Environment
+$(DELPHI)\Bin\dcldss50.bpl=Borland Decision Cube Components
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=Z:\WDTS\server\tsnew\
+[HistoryLists\hlConditionals]
+Count=6
+Item0=V50
+Item1=EUREKALOG;EUREKALOG_VER6
+Item2=STATIC_CONN;LEGACY_INTF;NOKPI
+Item3=STATIC_CONN;LEGACY_INTF
+Item4=STATIC_CONN;LEGACY_INTF;SMCORE2
+Item5=STATIC_CONN
+[HistoryLists\hlUnitAliases]
+Count=1
+Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlSearchPath]
+Count=24
+Item0=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser;Z:\millenium\Paginas;Z:\DimMod;Z:\xml\source;Z:\millenium\Eventos;Z:\WDTS\client\common;Z:\indy\Source
+Item1=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser;Z:\millenium\Paginas;Z:\DimMod;Z:\xml\source;Z:\millenium\Eventos;Z:\WDTS\client\common
+Item2=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser;Z:\millenium\Paginas;Z:\DimMod;Z:\xml\source;Z:\millenium\Eventos
+Item3=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser;Z:\millenium\Paginas;Z:\DimMod;Z:\xml\source
+Item4=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser;Z:\millenium\Paginas;Z:\DimMod
+Item5=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser;Z:\millenium\Paginas
+Item6=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto;Z:\WDTS\client\browser
+Item7=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source;Z:\crypto
+Item8=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes;z:\VirtualTreeView\Source
+Item9=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\fontes
+Item10=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls;z:\wtsTestRunner\dunit
+Item11=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common;z:\WDTS\ExtControls
+Item12=z:\EurekaLog 6\Delphi5;Z:\WDTS\client\common
+Item13=z:\labeler_pro2;Z:\modules\millenium\services-dll;z:\EurekaLog 6;Z:\DimMod\MDODashStandard\MDODashCustomAdvanced
+Item14=$(DELPHI)\Lib\Debug;Z:\modules\millenium\services-dll;Z:\WDTS\client\browser\html;Z:\millenium\Paginas;Z:\WDTS\D5Compat;Z:\PassWord;z:\WDTS\client\common;Z:\millenium\export;Z:\indy\Source;Z:\VirtualTreeView\Source;z:\VirtualTreeView\Source\;z:\Theme Manager\Source\;Z:\DimMod;Z:\WDTS\ieditor;z:\wdts\client\browser;z:\abbrevia\source;Z:\millenium\edi\Sped;Z:\pngimage;z:\millenium\producao;z:\millenium\lancamentos;t:\Interfaces;z:\EurekaLog 6;z:\modules\millenium_sped\services-dll;z:\modules\millenium_sped\view-win32;Z:\millenium\Relatorios;Z:\millenium\Etiquetas;Z:\DimMod\MDODashStandard\MDODashCustomAdvanced
+Item15=$(DELPHI)\Lib\Debug;Z:\modules\millenium\services-dll;Z:\WDTS\client\browser\html;Z:\millenium\Paginas;Z:\WDTS\D5Compat;Z:\PassWord;z:\WDTS\client\common;Z:\millenium\export;Z:\indy\Source;Z:\VirtualTreeView\Source;z:\VirtualTreeView\Source\;z:\Theme Manager\Source\;Z:\DimMod;Z:\WDTS\ieditor;z:\wdts\client\browser;z:\abbrevia\source;Z:\millenium\edi\Sped;Z:\pngimage;z:\millenium\producao;z:\millenium\lancamentos;t:\Interfaces;z:\EurekaLog 6;z:\modules\millenium_sped\services-dll;z:\modules\millenium_sped\view-win32;Z:\millenium\Relatorios;Z:\millenium\Etiquetas
+Item16=$(DELPHI)\Lib\Debug;$(DELPHI)\Source\Vcl;z:\millenium\funcoes;z:\dimmod;z:\PassWord
+Item17=$(DELPHI)\Source\Vcl;z:\millenium\funcoes;z:\dimmod;z:\PassWord
+Item18=$(DELPHI)\Source\Vcl;z:\millenium\funcoes;z:\dimmod
+Item19=$(DELPHI)\Lib\Debug
+Item20=Z:\millenium\edi\Gimba\Export
+Item21=$(DELPHI)\Lib\Debug;Z:\WDTS\client\browser\html;Z:\millenium\Paginas
+Item22=$(DELPHI)\Lib\Debug;Z:\WDTS\client\browser\html
+Item23=z:\dimmod
+[HistoryLists\hlOutputDirectorry]
+Count=11
+Item0=C:\millenium
+Item1=z:\build
+Item2=c:\wts5
+Item3=c:\wts_2009
+Item4=c:\wts_93
+Item5=c:\wts_hope
+Item6=c:\tm-2010\build
+Item7=c:\teste
+Item8=c:\sdk
+Item9=C:\wts
+Item10=z:\build\

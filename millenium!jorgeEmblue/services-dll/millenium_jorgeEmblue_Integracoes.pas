@@ -78,7 +78,7 @@ begin
         cmd01.Dim('EBL_INTEGRACAO',Integracoes.AsString['EBL_INTEGRACAO']);
         cmd01.execute('DELETE FROM EBL_ITENS_ERRO '+
                       'WHERE EBL_INTEGRACAO=:EBL_INTEGRACAO AND '+
-                      '      EBL_STATUS<>"AG_LIBERACAO" ');
+                      '      EBL_STATUS="REPROCESSANDO" ');
 
         //PROCESSAR ERROS NEW
         ItensErro.First;
