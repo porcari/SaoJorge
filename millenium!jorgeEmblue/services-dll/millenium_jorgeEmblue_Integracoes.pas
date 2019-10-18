@@ -9,7 +9,66 @@ uses
   Classes, IdCoderMIME, jpeg, logfiles, millenium_jorgeEmblue_Utils;
 
 procedure Executar(Input: IwtsInput; Output: IwtsOutput; DataPool: IwtsDataPool);
-var cmd01: IwtsCommand;
+    procedure EnviarEmailItensErro(const AIntegracao,ADescricao,AEmail:String);
+    var
+      cmd01: IwtsCommand;
+      ItensErro: IwtsWriteData;
+      AddressTo: IwtsWriteData;
+      msg:String;
+      SemLogNoDia:Boolean;
+    begin
+      cmd01 := CurrentDatapool.Open('millenium');
+      try
+        if AEmail<>'' then
+        begin
+          cmd01.Dim('INTEGRACAO',AIntegracao);
+          cmd01.Dim('DATA',Date);
+          cmd01.execute('SELECT EBL_DATA_INICIO '+
+                        'FROM EBL_LOGS '+
+                        'WHERE EBL_INTEGRACAO=:INTEGRACAO AND '+
+                        '      EBL_DATA_INICIO>:DATA ');
+
+          SemLogNoDia := false;
+          if cmd01.EOF then
+            SemLogNoDia := true;
+
+          cmd01.Dim('INTEGRACAO',AIntegracao);
+          cmd01.execute('SELECT EBL_CODIGO '+
+                        'FROM EBL_ITENS_ERRO '+
+                        'WHERE EBL_INTEGRACAO=:INTEGRACAO AND '+
+                        '      EBL_STATUS<>"NAO_INTEGRAR" ');
+          ItensErro := cmd01.CreateRecordset;
+
+          if (not ItensErro.EOF) and (SemLogNoDia) then
+          begin
+            msg := 'Lista de itens com erro na integração de '+ADescricao+' da EmBlue!'#13#13#13;
+            ItensErro.First;
+            while not ItensErro.EOF do
+            begin
+              msg := msg+'Código:'+ItensErro.AsString['EBL_CODIGO']+#13;
+              ItensErro.Next;
+            end;
+            AddressTo := CurrentDatapool.CreateRecordset('WTSSYSTEM.MESSENGER.EMAIL.ADDRESS');
+            AddressTo.New;
+            AddressTo.SetFieldByName('NAME', AEmail);
+            AddressTo.SetFieldByName('EMAIL', AEmail);
+            AddressTo.Add;
+
+            cmd01.DimAsData('TO', AddressTo);
+            cmd01.Dim('SUBJECT', 'Lista de itens com erro na integração de '+ADescricao+' da Emblue');
+            cmd01.Dim('TEXT', msg);
+            cmd01.Execute('#CALL MILLENIUM.UTILS.SalvarFilaEmail(TO=:TO,SUBJECT=:SUBJECT,TEXT=:TEXT);');
+          end;
+        end;
+      except
+        on E: Exception do
+        begin
+          addlog(0,'Erro no envio de E-mail com erros da integração emblue: '+e.Message,'EMBLUE_INTEGRACAO');
+        end;
+      end;
+    end;
+
+    var cmd01: IwtsCommand;
     Integracoes,Envio,Retorno,Atributos,ItensLog,ItensErro,ItensErroOld,result,Data:IwtsWriteData;
     IdLog,QTDProcessados:String;
 begin
@@ -22,7 +81,8 @@ begin
                   '       V.EBL_TOKEN, '+
                   '       V.EBL_URL, '+
                   '       V.EBL_MODELO, '+
-                  '       V.EBL_TRANS_ID '+
+                  '       V.EBL_TRANS_ID, '+
+                  '       V.EBL_EMAIL '+
                   'FROM EBL_INTEGRACOES V ');
 
     Integracoes := cmd01.CreateRecordset();
@@ -30,6 +90,9 @@ begin
     while not Integracoes.EOF do
     begin
       try
+        //vamos enviar emial uma vez ao dia
+        EnviarEmailItensErro(Integracoes.AsString['EBL_INTEGRACAO'],Integracoes.AsString['EBL_DESCRICAO'],Integracoes.AsString['EBL_EMAIL']);
+
         //vamos gerar cabeçalho do log
         IdLog := IncializaLog(DataPool,Integracoes.AsString['EBL_INTEGRACAO'],Integracoes.AsString['EBL_TRANS_ID']);
         DataPool.CommitAllRetain;
