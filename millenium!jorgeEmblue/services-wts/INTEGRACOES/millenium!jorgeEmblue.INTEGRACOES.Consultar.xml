@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root>
   <OBJECT NAME="INTEGRACOES">
-    <METHOD NAME="Consultar" DESCRIPTION="Consultar" VERSION="23" INTFTYPE="6" THREADSAFE="0">
+    <METHOD NAME="Consultar" DESCRIPTION="Consultar" VERSION="25" INTFTYPE="6" THREADSAFE="0">
       <PARAMS>
         <GROUPS>
           <GROUP/>
@@ -13,6 +13,8 @@
           <GROUP/>
           <GROUP NAME="Web Service"/>
           <GROUP NAME="Configura&#231;&#245;es"/>
+          <GROUP/>
+          <GROUP NAME="Configura&#231;&#245;es"/>
         </GROUPS>
         <FIELD NAME="INTEGRACAO" FORMAT="+" SIZE="8" FLAGS="1032" PROJECTION="0" ORDER="1" FIELDLABEL="Integracao" CTAB="0"/>
         <FIELD NAME="CODIGO" SIZE="10" FLAGS="17" PROJECTION="0" ORDER="1" FIELDLABEL="C&#243;digo" CTAB="0"/>
@@ -20,7 +22,8 @@
         <FIELD NAME="TOKEN" SIZE="250" FLAGS="2065" PROJECTION="0" ORDER="5" FIELDLABEL="Token de Acesso" GROUPNAME="Web Service" CTAB="0"/>
         <FIELD NAME="URL" SIZE="250" FLAGS="2065" PROJECTION="0" ORDER="4" FIELDLABEL="Url" GROUPNAME="Web Service" CTAB="0"/>
         <FIELD NAME="MODELO" SIZE="50" FLAGS="17" PROJECTION="0" ORDER="7" LOOKUP="list:'CLIENTES','Envio de Clientes';" FIELDLABEL="Modelo de Integra&#231;&#227;o" GROUPNAME="Configura&#231;&#245;es" CTAB="0"/>
-        <FIELD NAME="TRANS_ID" FORMAT="N" SIZE="8" FLAGS="17" DEFAULT="0" PROJECTION="0" ORDER="8" FIELDLABEL="Trans Id" GROUPNAME="Configura&#231;&#245;es" CTAB="0"/>
+        <FIELD NAME="TRANS_ID" FORMAT="N" SIZE="8" FLAGS="17" PROJECTION="0" ORDER="10" FIELDLABEL="Trans Id" GROUPNAME="Configura&#231;&#245;es" CTAB="0"/>
+        <FIELD NAME="EMAIL" SIZE="250" FLAGS="1" PROJECTION="0" HINT="E-mail para notifica&#231;&#227;o di&#225;ria dos itens com erro na integra&#231;&#227;o" ORDER="11" FIELDLABEL="E-mail para Notifica&#231;&#227;o" GROUPNAME="Configura&#231;&#245;es" CTAB="0"/>
       </FIELDS>
       <ACTIONSCRIPT>SELECT EBL_INTEGRACAO AS INTEGRACAO,
        EBL_CODIGO AS CODIGO,
@@ -28,7 +31,8 @@
        EBL_TOKEN AS TOKEN,
        EBL_URL AS URL,
        EBL_MODELO AS MODELO,
-       EBL_TRANS_ID AS TRANS_ID
+       EBL_TRANS_ID AS TRANS_ID,
+       EBL_EMAIL AS EMAIL
 FROM EBL_INTEGRACOES
 WHERE EBL_INTEGRACAO=:INTEGRACAO;
 </ACTIONSCRIPT>

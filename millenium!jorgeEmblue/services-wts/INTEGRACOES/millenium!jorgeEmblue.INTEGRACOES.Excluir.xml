@@ -1,20 +1,14 @@
 <?xml version="1.0"?>
 <root>
   <OBJECT NAME="INTEGRACOES">
-    <METHOD NAME="Excluir" DESCRIPTION="Excluir" VERSION="14" INTFTYPE="3" THREADSAFE="0">
+    <METHOD NAME="Excluir" DESCRIPTION="Excluir" VERSION="15" INTFTYPE="3" THREADSAFE="0">
       <PARAMS>
         <GROUPS>
           <GROUP/>
         </GROUPS>
         <PARAM NAME="INTEGRACAO" FORMAT="+" SIZE="8" FLAGS="1032" PROJECTION="0" ORDER="1" FIELDLABEL="Integracao" CTAB="0"/>
       </PARAMS>
-      <FIELDS>
-        <GROUPS>
-          <GROUP/>
-          <GROUP NAME="Web Service"/>
-          <GROUP NAME="Configura&#231;&#245;es"/>
-        </GROUPS>
-      </FIELDS>
+      <FIELDS/>
       <ACTIONSCRIPT>DELETE FROM EBL_INTEGRACOES
 WHERE EBL_INTEGRACAO=:INTEGRACAO;
 </ACTIONSCRIPT>
