@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<root>
+  <OBJECT NAME="PRODUTOS">
+    <METHOD NAME="Listar_Vinculos" DESCRIPTION="Listar vinculos do produto e SKUs" VERSION="8" THREADSAFE="1">
+      <PARAMS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <PARAM NAME="COD_PRODUTO" SIZE="120" FLAGS="17" PROJECTION="0" ORDER="1" FIELDLABEL="C&#243;d. Produto Millennium" CTAB="0"/>
+      </PARAMS>
+      <FIELDS>
+        <GROUPS>
+          <GROUP/>
+        </GROUPS>
+        <FIELD NAME="COD_PRODUTO" SIZE="60" FLAGS="1" PROJECTION="0" ORDER="3" FIELDLABEL="C&#243;d Produto Millenium" CTAB="0"/>
+        <FIELD NAME="COD_COR" SIZE="10" PROJECTION="0" FIELDLABEL="Cod Cor" CTAB="0"/>
+        <FIELD NAME="ID" SIZE="150" FLAGS="1" PROJECTION="0" ORDER="4" FIELDLABEL="Id contru&#237;do no Millenium" CTAB="0"/>
+        <FIELD NAME="ID_EXTERNO" SIZE="250" FLAGS="1" PROJECTION="0" ORDER="6" FIELDLABEL="Id Externo do sku na vitrine" CTAB="0"/>
+        <FIELD NAME="ID_EXTERNO_PRODUTO" SIZE="250" FLAGS="1" PROJECTION="0" ORDER="5" FIELDLABEL="Id Externo do produto na vitrine" CTAB="0"/>
+        <FIELD NAME="INCLUIR" SIZE="1" PROJECTION="0" FIELDLABEL="Incluir" CTAB="0"/>
+        <FIELD NAME="DESCRICAO1" SIZE="255" FLAGS="1" PROJECTION="0" ORDER="7" FIELDLABEL="Descri&#231;&#227;o do produto no MIllenium" CTAB="0"/>
+        <FIELD NAME="DESCRICAO_SITE" SIZE="255" FLAGS="1" PROJECTION="0" ORDER="10" FIELDLABEL="Descri&#231;&#227;o do produto no Site" CTAB="0"/>
+        <FIELD NAME="COM_VINCULO_PRODUTO" FORMAT="B" SIZE="1" FLAGS="1" PROJECTION="0" ORDER="8" FIELDLABEL="Existe Vinculo do Produto com o Site" CTAB="0"/>
+        <FIELD NAME="COM_VINCULO_SKU" FORMAT="B" SIZE="1" FLAGS="1" PROJECTION="0" ORDER="9" FIELDLABEL="Existe Vinculo do SKU com o Site" CTAB="0"/>
+        <FIELD NAME="PRODUTO" FORMAT="N" SIZE="8" PROJECTION="0" FIELDLABEL="Produto" CTAB="0"/>
+        <FIELD NAME="COR" FORMAT="N" SIZE="8" PROJECTION="0" FIELDLABEL="Cor" CTAB="0"/>
+        <FIELD NAME="ESTAMPA" FORMAT="N" SIZE="8" PROJECTION="0" FIELDLABEL="Estampa" CTAB="0"/>
+        <FIELD NAME="TAMANHO" SIZE="5" PROJECTION="0" FIELDLABEL="Tamanho" CTAB="0"/>
+        <FIELD NAME="VITRINE" FORMAT="N" SIZE="8" PROJECTION="0" FIELDLABEL="Vitrine" CTAB="0"/>
+      </FIELDS>
+      <ACTIONSCRIPT></ACTIONSCRIPT>
+    </METHOD>
+  </OBJECT>
+</root>

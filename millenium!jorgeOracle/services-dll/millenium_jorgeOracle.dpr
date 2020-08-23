@@ -15,7 +15,8 @@ uses
   wtsServerObjs in 'Z:\WDTS\server\common\wtsServerObjs.pas',
   millenium_jorgeOracle_clientes in 'millenium_jorgeOracle_clientes.pas',
   millenium_jorgeOracle_estoques in 'millenium_jorgeOracle_estoques.pas',
-  millenium_jorgeOracle_produtos in 'millenium_jorgeOracle_produtos.pas';
+  millenium_jorgeOracle_produtos in 'millenium_jorgeOracle_produtos.pas',
+  oracle_utils in 'oracle_utils.pas';
 
 exports
   wtsLibEntry,

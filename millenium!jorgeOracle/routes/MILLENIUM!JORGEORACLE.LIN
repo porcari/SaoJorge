@@ -25,6 +25,20 @@
 	</link>		
 	<link category="PROCESSOS INTERNOS\Vendas\Listar Clientes" target="standard.tdataedit" _id="ORC_6" Caption="Listar Clientes" ORDER="1">
 		<method>MILLENIUM!JORGEORACLE.CLIENTES.LISTARSIMPLES</method>
+	</link>	
+
+	<link category="PROCESSOS INTERNOS\Vitrine Oracle\Lista de Produtos/SKUs" target="standard.tdataedit" _id="ORC_7" Caption="Lista de Produtos/SKUs" ORDER="1">
+		<method>MILLENIUM!JORGEORACLE.PRODUTOS.LISTAR_VINCULOS</method>
+		<link target="standard.tdataedit" _id="ORC_8" Caption="Refazer Vinculo" ORDER="1">
+			<method>MILLENIUM!JORGEORACLE.PRODUTOS.REFAZERVINCULO</method>
+			<COD_PRODUTO>{$data.COD_PRODUTO}</COD_PRODUTO>
+                        <ID>{$data.ID}</ID>        
+                        <VITRINE>{$data.VITRINE}</VITRINE>
+                        <COM_VINCULO_PRODUTO>{$data.COM_VINCULO_PRODUTO}</COM_VINCULO_PRODUTO>
+                        <COM_VINCULO_SKU>{$data.COM_VINCULO_SKU}</COM_VINCULO_SKU>
+			<Option>CloseOnSubmit</Option>
+			<Message>Confirma o Vinculo do produto/SKU?</Message>				
+		</link>	
 	</link>		
 </root>
 

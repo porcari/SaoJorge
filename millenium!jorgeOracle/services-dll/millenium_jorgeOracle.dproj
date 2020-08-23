@@ -17,10 +17,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Version>7.0</Version>
-    <DCC_UnitSearchPath>Z:\modules\millenium_eco_active_oracle\services-dll;Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_UnitSearchPath>
-    <DCC_ResourcePath>Z:\modules\millenium_eco_active_oracle\services-dll;Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_ResourcePath>
-    <DCC_ObjPath>Z:\modules\millenium_eco_active_oracle\services-dll;Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_ObjPath>
-    <DCC_IncludePath>Z:\modules\millenium_eco_active_oracle\services-dll;Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_IncludePath>
+    <DCC_UnitSearchPath>Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_UnitSearchPath>
+    <DCC_ResourcePath>Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_ResourcePath>
+    <DCC_ObjPath>Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_ObjPath>
+    <DCC_IncludePath>Z:\WDTS\server\common;Z:\WDTS\client\common;Z:\modules\millenium_eco\services-dll;Z:\indy\Source;Z:\millenium\Paginas</DCC_IncludePath>
     <DCC_ExeOutput>c:\wts</DCC_ExeOutput>
   </PropertyGroup>
   <ProjectExtensions>
@@ -37,6 +37,7 @@
     <DCCReference Include="millenium_jorgeOracle_clientes.pas" />
     <DCCReference Include="millenium_jorgeOracle_estoques.pas" />
     <DCCReference Include="millenium_jorgeOracle_produtos.pas" />
+    <DCCReference Include="oracle_utils.pas" />
     <DCCReference Include="Z:\WDTS\server\common\wtsServerObjs.pas" />
   </ItemGroup>
 </Project>
